@@ -7,6 +7,14 @@ ja:
         description: 詳しい説明
         created_at: 登録日時
         updated_at: 更新日時
+      user:
+        id: ID
+        name: 氏名
+        admin: 管理者権限
+        password: パスワード
+        password_confirmation: パスワード（確認） 
+        created_at: 登録日時
+        updated_at: 更新日時
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました：%{errors}"
