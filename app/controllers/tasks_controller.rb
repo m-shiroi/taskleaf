@@ -1,12 +1,17 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+    
   def index
 #    @tasks = Task.all
-    @tasks = current_user.tasks
+    # user_id: current_user.id
+#    @tasks = current_user.tasks.order(created_at: :desc)
+    # set_taskで共通化
+    @tasks = current_user.tasks.recent
   end
 
   def show
 #    @task = Task.find(params[:id])
-    @task = current_user.tasks.find(params[:id])
+#    @task = current_user.tasks.find(params[:id])
   end
 
   def new
@@ -27,24 +32,29 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = current_user.tasks.find(params[:id])
+#    @task = current_user.tasks.find(params[:id])
   end
   
   def update
-    task = current_user.tasks.find(params[:id])
-    task.update!(task_params) # taskへの代入とUPDATEを一括で行う
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を更新しました。"
+#    task = current_user.tasks.find(params[:id])
+    # set_taskで共通化するので、インスタンス変数に変更
+    @task.update!(task_params) # taskへの代入とUPDATEを一括で行う
+    redirect_to tasks_url, notice: "タスク「#{@task.name}」を更新しました。"
   end
   
   def destroy
-    task = current_user.tasks.find(params[:id])
-    task.destroy
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を削除しました。"
+#    task = current_user.tasks.find(params[:id])
+    @task.destroy
+    redirect_to tasks_url, notice: "タスク「#{@task.name}」を削除しました。"
   end
   
   private
   
   def task_params
     params.require(:task).permit(:name, :description)
+  end
+  
+  def set_task
+    @task = current_user.tasks.find(params[:id])
   end
 end
