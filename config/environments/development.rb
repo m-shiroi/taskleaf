@@ -12,6 +12,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
+  # 本番用のエラー画面を見たい時はfalseにする
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
@@ -73,4 +74,11 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+  
+  config.log_level = :debug # info / warn / error / fatal / unknown
+  config.logger = Logger.new('log/development.log', 'daily')
+  config.custom_logger = Logger.new('log/custom.log', 'weekly')
+  config.custom_logger.formatter = proc { |severity, timestamp, progname, message|
+    "#{timestamp} :#{severity}: #{message}¥n"
+  }
 end

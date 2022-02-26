@@ -17,6 +17,8 @@ class Admin::UsersController < ApplicationController
     @user = User.new(user_params)
     
     if @user.save
+      logger.debug "ユーザ追加: #{@user.attributes.inspect}"
+      Rails.application.config.custom_logger.debug  "ユーザ追加: #{@user.attributes.inspect}"
       redirect_to admin_user_url(@user), notice: "ユーザを登録しました。"
     else
       render :new
